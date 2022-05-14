@@ -21,9 +21,10 @@ class Response(BaseModel):
 @app.post("/predict", response_model=Response)
 async def predict(file: UploadFile = File(...)):
     data = pd.read_csv(StringIO(str(file.file.read(), 'utf-8')), header=None, encoding='utf-8')
-    # data = np.array(data)
 
-    #pred = make_predictions(data)
-    pred=[1,2,3]
-    print(pred)
-    return Response(pred)
+    data = np.array(data)
+
+    pred = list(make_predictions(data))
+    #pred = [1,2,3]
+    #print(pred)
+    return Response(predictions=pred)
