@@ -22,4 +22,8 @@ class Response(BaseModel):
 async def predict(file: UploadFile = File(...)):
     data = pd.read_csv(StringIO(str(file.file.read(), 'utf-8')), header=None, encoding='utf-8')
     # data = np.array(data)
-    return Response(make_predictions(data))
+
+    #pred = make_predictions(data)
+    pred=[1,2,3]
+    print(pred)
+    return Response(pred)
