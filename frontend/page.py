@@ -1,5 +1,11 @@
 import requests
 import streamlit as st
+import json
+import pandas as pd
+
+FEATURES = ['f_acidity', 'v_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'sulfur_dioxide',
+            't_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
+# import features from backend
 
 STYLES = {
     "candy": "candy",
@@ -19,14 +25,30 @@ st.set_option("deprecation.showfileUploaderEncoding", False)
 st.title("ML web app")
 
 # displays a file uploader widget
-data = st.file_uploader("Choose a CSV file with data")
-
+file = st.file_uploader("Choose a CSV file with data")
 
 # displays a button
 if st.button("Predict"):
-    if data is not None:
-        file = {"file": data.getvalue()}
-        res = requests.post("http://127.0.0.1:8000/predict", files=file)
+    if file is not None:
+        
+        try:
+            data = pd.read_csv(file, header=None)
+        except:
+            print("sth went wrong", data)
 
-        predictions = res.json().get("predictions")
-        st.text_area(value=predictions, label='Predictions')
+        values_list = data.values.tolist()
+        to_send = []
+
+        for instance in values_list:
+            to_send.append(dict(zip(FEATURES, instance)))
+
+        response = requests.post("http://127.0.0.1:8000/predict", json=to_send)
+
+        if response.status_code != 200:
+            st.error("Wrong data provided")
+        else:
+            predictions = response.json().get("predictions")
+            st.text_area(value=predictions, label='Predictions')
+
+
+

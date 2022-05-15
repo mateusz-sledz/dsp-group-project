@@ -7,6 +7,7 @@ from io import StringIO
 from pydantic import BaseModel
 from winequality.inference import make_predictions
 
+
 app = FastAPI()
 
 
@@ -14,17 +15,32 @@ class Response(BaseModel):
     predictions: list[int]
 
 
-# class Config:
-# 	arbitrary_types_allowed = True
+class Request(BaseModel):
+    f_acidity: float
+    v_acidity: float
+    citric_acid: float
+    residual_sugar: float
+    chlorides: float
+    sulfur_dioxide: float
+    t_sulfur_dioxide: float
+    density: float
+    pH: float
+    sulphates: float
+    alcohol: float
+    
+    class Config:
+        orm_mode = True
 
 
 @app.post("/predict", response_model=Response)
-async def predict(file: UploadFile = File(...)):
-    data = pd.read_csv(StringIO(str(file.file.read(), 'utf-8')), header=None, encoding='utf-8')
+async def predict(data: list[Request]):
+    features = []
+    for row in data:
+        features.append([x[1] for x in list(row)])
 
-    data = np.array(data)
+    pred = list(make_predictions(np.array(features)))
 
-    pred = list(make_predictions(data))
-    #pred = [1,2,3]
-    #print(pred)
     return Response(predictions=pred)
+
+
+
