@@ -27,6 +27,7 @@ st.title("ML web app")
 # displays a file uploader widget
 file = st.file_uploader("Choose a CSV file with data")
 
+
 # displays a button
 if st.button("Predict"):
     if file is not None:
@@ -49,6 +50,34 @@ if st.button("Predict"):
         else:
             predictions = response.json().get("predictions")
             st.text_area(value=predictions, label='Predictions')
+
+
+
+with st.form("my_form"):
+    st.write("Provide data for prediction")
+
+    values = [0]*len(FEATURES)
+    for i, v in enumerate(FEATURES):
+        values[i] = st.number_input(v, 0.0, 100.0)
+
+    values_list = [values]
+    submitted = st.form_submit_button("Submit")
+
+    if submitted:
+        to_send = []
+
+        for instance in values_list:
+            to_send.append(dict(zip(FEATURES, instance)))
+
+        response = requests.post("http://127.0.0.1:8000/predict", json=to_send)
+
+        if response.status_code != 200:
+            st.error("Wrong data provided")
+        else:
+            predictions = response.json().get("predictions")
+            st.text_area(value=predictions, label='Predictions')
+
+
 
 
 
