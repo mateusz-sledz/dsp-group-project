@@ -28,11 +28,9 @@ $ streamlit run page.py
    
    ```bash 
    $ enable_xcom_pickling = True  
-   ```
-   
-   ```bash 
    $ load_examples = False 
    ```
+   
 4. ```bash 
    $ airflow db reset
    ```
@@ -50,7 +48,7 @@ $ streamlit run page.py
     
  # Launch webserver
  
- 1. open another tab
+ 1. open another terminal
  
 ```bash 
    $ export AIRFLOW_HOME=${PWD}/airflow
