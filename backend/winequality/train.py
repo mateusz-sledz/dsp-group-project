@@ -19,7 +19,7 @@ def build_model(data: pd.DataFrame) -> dict[str, float]:
     if os.getenv('ROOT') is None:
         load_dotenv()
 
-    joblib.dump(os.getenv('ROOT')+'/backend/models/RANDOM_FOREST_MODEL')
+    joblib.dump(model, os.getenv('ROOT')+'/backend/models/RANDOM_FOREST_MODEL')
 
     y_pred = model.predict(X_test)
 
