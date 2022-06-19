@@ -43,6 +43,7 @@ if st.button("Predict"):
         for instance in values_list:
             to_send.append(dict(zip(FEATURES, instance)))
 
+        print(to_send)
         response = requests.post("http://127.0.0.1:8000/predict", json=to_send)
 
         if response.status_code != 200:
@@ -50,7 +51,6 @@ if st.button("Predict"):
         else:
             predictions = response.json().get("predictions")
             st.text_area(value=predictions, label='Predictions')
-
 
 
 with st.form("my_form"):
@@ -69,15 +69,13 @@ with st.form("my_form"):
         for instance in values_list:
             to_send.append(dict(zip(FEATURES, instance)))
 
+        print(to_send)
         response = requests.post("http://127.0.0.1:8000/predict", json=to_send)
 
         if response.status_code != 200:
             st.error("Wrong data provided")
         else:
             predictions = response.json().get("predictions")
-            st.text_area(value=predictions, label='Predictions')
-
-
-
-
+            st.caption('Predictions')
+            st.text(predictions[0])
 
