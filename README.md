@@ -13,7 +13,7 @@ $ streamlit run page.py
 ```
 
 
-Setting up airflow congifuration
+# Setting up airflow congifuration
 
 1. ```bash 
    $ export AIRFLOW_HOME=${PWD}/airflow
