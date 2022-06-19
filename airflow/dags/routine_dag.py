@@ -33,6 +33,8 @@ def make_prediction_dag():
 
 
 make_predictions = make_prediction_dag()
+
+print("predictin to sve: ",make_predictions)
 #
 # #
 # def load_pipeline_data():
