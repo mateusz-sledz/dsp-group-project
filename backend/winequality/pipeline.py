@@ -6,7 +6,7 @@ import joblib
 
 
 def load_pipeline_data() -> pd.DataFrame:
-    data = pd.read_csv('backend/data/injection_data1.csv')
+    data = pd.read_csv('backend/data/winequality-red.csv')
     return data
 
 
