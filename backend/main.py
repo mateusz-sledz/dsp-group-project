@@ -35,6 +35,7 @@ class Request(BaseModel):
 @app.post("/predict", response_model=Response)
 async def predict(data: list[Request]):
     features = []
+    print(data)
     for row in data:
         features.append([x[1] for x in list(row)])
 
