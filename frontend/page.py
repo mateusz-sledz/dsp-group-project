@@ -1,6 +1,13 @@
 import requests
 import streamlit as st
 import pandas as pd
+import numpy as np
+import sys
+sys.path.append("..")
+from backend.postgres_handler.connector import get_from_db
+import streamlit.components.v1 as components
+from st_aggrid import AgGrid
+
 
 FEATURES = ['f_acidity', 'v_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'sulfur_dioxide',
             't_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
@@ -71,3 +78,36 @@ with st.form("my_form"):
             st.caption('Predictions')
             st.text(predictions[0])
 
+
+def show_pred():
+    data_pred = get_from_db()
+    df = pd.DataFrame(data_pred, columns =['fixed_acidity',
+                                    'volatile_acidity',
+                                    'citric_acid',
+                                    'residual_sugar',
+                                    'chlorides',
+                                    'free_sulfur_dioxide',
+                                    'total_sulfur_dioxide',
+                                    'density',
+                                    'pH',
+                                    'sulphates',
+                                    'alcohol',
+                                    'quality'
+                                    ])
+    AgGrid(df)
+
+st.title("Past Predictions")
+
+button_flag = 'button_flag'
+reload = False
+if button_flag not in st.session_state:
+    st.session_state[button_flag] = False
+
+if st.session_state[button_flag]:
+    myBtn = st.button('Reload')
+    st.session_state[button_flag] = True
+    show_pred()
+else:
+    myBtn = st.button('Show')
+    st.session_state[button_flag] = True
+    
