@@ -30,7 +30,7 @@ def make_prediction_dag():
     def send_data_to_postgres(values, pred):
         data = values[0].tolist()
         data.append(float(pred[0]))
-        save_to_db(data)
+        save_to_db([data])
         logging.info('SENT TO DB')
 
     df = get_data_for_pipeline()

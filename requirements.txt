@@ -14,3 +14,4 @@ apache-airflow==2.3.2
 mlflow==1.26.1
 psycopg2==2.9.3
 configparser==5.2.0
+protobuf~=3.19.0

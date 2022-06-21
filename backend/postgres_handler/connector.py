@@ -12,7 +12,11 @@ def save_to_db(values):
 
         cur = conn.cursor()
 
-        cur.execute(query, values)
+        if len(values) == 1:
+            cur.execute(query, values[0])
+        else:
+            cur.executemany(query, values)
+
         cur.execute('commit;')
 
         cur.close()
@@ -35,7 +39,6 @@ def get_from_db():
         cur = conn.cursor()
 
         cur.execute(query)
-        cur.execute('commit;')
 
         data = cur.fetchall()
 
