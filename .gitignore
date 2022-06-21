@@ -132,3 +132,6 @@ backend/data
 .idea
 .DS_Store
 .env
+airflow/airflow.*
+airflow/webserver_config.py
+airflow/logs

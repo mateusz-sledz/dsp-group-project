@@ -13,11 +13,6 @@ def build_model(data: pd.DataFrame) -> dict[str, float]:
     X_train, X_test, y_train, y_test =\
         train_test_split(data.drop(['quality'], axis=1), Y_train, test_size=0.4)
 
-    model = RandomForestClassifier()
-    model.fit(X_train, y_train)
-    X_train, X_test, y_train, y_test = \
-        train_test_split(data.drop(['quality'], axis=1), Y_train, test_size=0.4,
-                         random_state=30)
     with mlflow.start_run():
         model = RandomForestClassifier()
         model.fit(X_train, y_train)
@@ -40,4 +35,5 @@ def build_model(data: pd.DataFrame) -> dict[str, float]:
         experiment_name = "wine_prediction_with_random_forest"
         # mlflow.set_experiment(experiment_name)
         # mlflow.log_metrics(test_metrics)
+
     return test_metrics
