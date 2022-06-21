@@ -1,3 +1,0 @@
-docker build -t wine-postgres-db ./
-
-docker run -d --name wine-postgresdb-container -p 5432:5432 wine-postgres-db

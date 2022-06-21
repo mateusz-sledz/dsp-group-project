@@ -27,7 +27,7 @@ def make_prediction_dag():
         return run_model_background(data_df)
 
     @task
-    def mytask(values, pred):
+    def send_data_to_postgres(values, pred):
         data = values[0].tolist()
         data.append(float(pred[0]))
         save_to_db(data)
@@ -35,7 +35,7 @@ def make_prediction_dag():
 
     df = get_data_for_pipeline()
     prediction = make_prediction_on_pipeline_data(df)
-    mytask(df, prediction)
+    send_data_to_postgres(df, prediction)
 
     return prediction
 
