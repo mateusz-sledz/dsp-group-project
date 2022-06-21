@@ -2,9 +2,11 @@ import sys
 from airflow.decorators import dag, task
 from airflow.utils.dates import timedelta
 from pendulum import today
+import logging
 
 sys.path.append(".")
 from backend.winequality.pipeline import load_pipeline_data, run_model_background
+from backend.postgres_handler.connector import save_to_db
 
 
 @dag(
@@ -24,8 +26,17 @@ def make_prediction_dag():
     def make_prediction_on_pipeline_data(data_df):
         return run_model_background(data_df)
 
+    @task
+    def mytask(values, pred):
+        data = values[0].tolist()
+        data.append(float(pred[0]))
+        save_to_db(data)
+        logging.info('SENT TO DB')
+
     df = get_data_for_pipeline()
     prediction = make_prediction_on_pipeline_data(df)
+    mytask(df, prediction)
+
     return prediction
 
 

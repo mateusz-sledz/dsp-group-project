@@ -7,14 +7,14 @@ from backend.winequality.train import build_model
 from backend.winequality.inference import make_predictions
 
 
-def load_pipeline_data() -> pd.DataFrame:
+def load_pipeline_data():
     if os.getenv('ROOT') is None:
         load_dotenv()
 
     data = pd.read_csv(os.getenv('ROOT') + '/backend/data/winequality-red.csv')
     data.drop(columns=['quality'], inplace=True)
 
-    row = np.array(data.loc[ random.randint(0, len(data) - 1) ]).reshape(1, -1)
+    row = np.array(data.loc[random.randint(0, len(data) - 1)]).reshape(1, -1)
     return row
 
 
