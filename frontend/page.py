@@ -1,11 +1,9 @@
 import requests
 import streamlit as st
-import json
 import pandas as pd
 
 FEATURES = ['f_acidity', 'v_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'sulfur_dioxide',
             't_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
-# import features from backend
 
 STYLES = {
     "candy": "candy",
@@ -21,14 +19,10 @@ STYLES = {
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
-# defines an h1 header
 st.title("ML web app")
 
-# displays a file uploader widget
 file = st.file_uploader("Choose a CSV file with data")
 
-
-# displays a button
 if st.button("Predict"):
     if file is not None:
         
@@ -43,7 +37,6 @@ if st.button("Predict"):
         for instance in values_list:
             to_send.append(dict(zip(FEATURES, instance)))
 
-        print(to_send)
         response = requests.post("http://127.0.0.1:8000/predict", json=to_send)
 
         if response.status_code != 200:
@@ -69,7 +62,6 @@ with st.form("my_form"):
         for instance in values_list:
             to_send.append(dict(zip(FEATURES, instance)))
 
-        print(to_send)
         response = requests.post("http://127.0.0.1:8000/predict", json=to_send)
 
         if response.status_code != 200:

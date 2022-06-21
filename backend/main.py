@@ -1,11 +1,8 @@
 from fastapi import FastAPI
-import pandas as pd
 import numpy as np
-from fastapi import File
-from fastapi import UploadFile
-from io import StringIO
 from pydantic import BaseModel
 from winequality.inference import make_predictions
+from postgres_handler.connector import save_to_db
 
 
 app = FastAPI()
@@ -35,11 +32,16 @@ class Request(BaseModel):
 @app.post("/predict", response_model=Response)
 async def predict(data: list[Request]):
     features = []
-    print(data)
+
     for row in data:
         features.append([x[1] for x in list(row)])
 
-    pred = list(make_predictions(np.array(features)))
+    pred = (make_predictions(np.array(features))).tolist()
+
+    for f, p in zip(features, pred):
+        f.append(p)
+
+    save_to_db(features)
 
     return Response(predictions=pred)
 
