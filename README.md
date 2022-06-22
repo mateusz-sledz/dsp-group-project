@@ -40,19 +40,19 @@ $ airflow users create \
 
  # Launch scheduler and webserver
  
-  1. Start airflow scheduler
+  1. Start airflow webserver
  
-```bash    
+ ```bash 
+
+$ airflow webserver       # http://localhost:8080
+  ```
+ 2. Open another terminal and start airflow scheduler 
+   
+```bash 
+$ export AIRFLOW_HOME=${PWD}/airflow
 $ airflow scheduler
 ```
 
- 2. Open another terminal and start airflow webserver
- 
-```bash 
-$ export AIRFLOW_HOME=${PWD}/airflow
-   
-$ airflow webserver       # http://localhost:8080
-  ```
 # Setting up mlflow
 1. To run mlflow server, run the following command:
 ```bash
