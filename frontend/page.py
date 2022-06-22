@@ -26,7 +26,7 @@ STYLES = {
 
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
-st.title("ML web app")
+st.title("Wine quality prediction - web app")
 
 file = st.file_uploader("Choose a CSV file with data")
 
