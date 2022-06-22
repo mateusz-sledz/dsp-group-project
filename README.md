@@ -10,32 +10,32 @@ $ docker run -d --name wine-postgresdb-container -p 5432:5432 wine-postgres-db
 # Setting up airflow
 
 ```bash 
-   $ export AIRFLOW_HOME=${PWD}/airflow
+$ export AIRFLOW_HOME=${PWD}/airflow
    ```
 ```bash 
-   $ airflow db init
+$ airflow db init
    ```
 ```bash 
-   $ Vim airflow.cfg 
+$ Vim airflow.cfg 
    ```
    and inside that file, change following variables
    
 ```bash 
-   $ enable_xcom_pickling = True  
-   $ load_examples = False 
+$ enable_xcom_pickling = True  
+$ load_examples = False 
    ```
    
 ```bash 
-   $ airflow db reset
+$ airflow db reset
    ```
    
 ```bash 
-   $ airflow users create \
-    --username admin \
-    --firstname dsp \
-    --lastname project \
-    --role Admin \
-    --email <any email>
+$ airflow users create \
+  --username admin \
+  --firstname dsp \
+  --lastname project \
+  --role Admin \
+  --email <any email>
 ```
 
  # Launch scheduler and webserver
@@ -43,21 +43,21 @@ $ docker run -d --name wine-postgresdb-container -p 5432:5432 wine-postgres-db
   1. Start airflow scheduler
  
 ```bash    
-   $ airflow scheduler
-  ```
+$ airflow scheduler
+```
 
  2. Open another terminal and start airflow webserver
  
 ```bash 
-   $ export AIRFLOW_HOME=${PWD}/airflow
+$ export AIRFLOW_HOME=${PWD}/airflow
    
-   $ airflow webserver       # http://localhost:8080
+$ airflow webserver       # http://localhost:8080
   ```
 # Setting up mlflow
 1. To run mlflow server, run the following command:
 ```bash
-    $ mlflow server --backend-store-uri postgresql://${db_username}:${db_password}@127.0.0.1:5432/winedb \
-        --default-artifact-root ${PWD}/mlruns
+$ mlflow server --backend-store-uri postgresql://${db_username}:${db_password}@127.0.0.1:5432/winedb \
+  --default-artifact-root ${PWD}/mlruns
 ```
 # Set up and start the application
 
