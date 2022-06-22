@@ -1,4 +1,6 @@
-# Setting up postgreSQL database on docker
+
+# Setting up PostgreSQL database on Docker
+🚨 _Important note: Install Postgres using `brew install postgres`, then `pip install -r requirements.txt` for users in Apple Silicon devices._
 1. Start docker on your machine
 2. Go to the docker folder and execute following commands
 ```bash 
@@ -35,8 +37,7 @@ $ docker run -d --name wine-postgresdb-container -p 5432:5432 wine-postgres-db
     --role Admin \
     --email <any email>
 ```
-    
-    
+
  # Launch scheduler and webserver
  
   1. Start airflow scheduler
@@ -52,17 +53,20 @@ $ docker run -d --name wine-postgresdb-container -p 5432:5432 wine-postgres-db
    
    $ airflow webserver       # http://localhost:8080
   ```
+# Setting up mlflow
+1. To run mlflow server, run the following command:
+```bash
+    $ mlflow server --backend-store-uri postgresql://${db_username}:${db_password}@127.0.0.1:5432/winedb \
+        --default-artifact-root ${PWD}/mlruns
+```
+# Set up and start the application
 
-# Starting application
-
-Execute following command in the first terminal in folder 'backend'
-
-
+1. Create a duplicate of the file `.env.sample` with the name `.env` and the correct data of your environment configuration.
+2. Execute following command in the first terminal in folder 'backend'
 ```bash
 $ uvicorn main:app --reload
 ```
-
-Execute second command in the other terminal in folder 'frontend'
+3. Execute second command in the other terminal in folder 'frontend'
 ```bash
 $ streamlit run page.py
 ```
