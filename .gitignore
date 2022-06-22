@@ -139,5 +139,4 @@ airflow/logs
 airflow/airflow-webserver.pid
 
 notebooks/mlruns/
-mlruns/
 
